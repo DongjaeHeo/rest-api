@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 
 from db import db
 from blocklist import BLOCKLIST
-
+import models
 
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
@@ -29,7 +29,7 @@ def create_app(db_url=None):
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or "sqlite:///data.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
@@ -54,11 +54,11 @@ def create_app(db_url=None):
             401,
         )
 
-    # @jwt.additional_claims_loader
-    # def add_claims_to_jwt(identity):
-    #     if identity == 1:
-    #         return {"is_admin": True}
-    #     return {"is_admin": False}
+    @jwt.additional_claims_loader
+    def add_claims_to_jwt(identity):
+        if identity == 1:
+            return {"is_admin": True}
+        return {"is_admin": False}
 
     @jwt.expired_token_loader
     def expired_token_callback(jwt_header, jwt_payload):
@@ -96,6 +96,9 @@ def create_app(db_url=None):
                 }
             )
         )
+    # @app.before_first_request
+    # def create_tables():
+    #     db.create_all()
 
 
 
