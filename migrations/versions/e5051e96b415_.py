@@ -48,7 +48,7 @@ def downgrade():
                existing_type=sa.Float(precision=2),
                type_=sa.REAL(),
                existing_nullable=False)
-    op.create_table('items_tags',
+    op.create_table('item_tags',
     sa.Column('id', sa.INTEGER(), autoincrement=True, nullable=False),
     sa.Column('item_id', sa.INTEGER(), autoincrement=False, nullable=True),
     sa.Column('tag_id', sa.INTEGER(), autoincrement=False, nullable=True),
