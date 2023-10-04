@@ -7,4 +7,4 @@ flask-jwt-extended==4.3.1  # as of my last update, adjust if needed
 passlib==1.7.4  # as of my last update, adjust if needed
 flask-migrate==3.1.0
 gunicorn==20.1.0  # as of my last update, adjust if needed
-psycog2
+psycog2==2.9.1
