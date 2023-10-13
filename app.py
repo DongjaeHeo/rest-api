@@ -16,12 +16,15 @@ from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
+from flask_cors import CORS
+
 
 
 
 
 def create_app(db_url=None):
     app = Flask(__name__)
+    CORS(app)
     load_dotenv()
 
     connection = redis.from_url(os.getenv("REDIS_URL"))
